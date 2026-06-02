@@ -1,0 +1,26 @@
+{
+  "name": "red-planet-test",
+  "scripts": {
+
+    "reseed": "npx prisma@6 db push --force-reset --skip-generate && npx prisma@6 db seed -- --environment test"
+  },
+  "prisma": {
+    "seed": "ts-node ../server/prisma/seed.ts",
+    "schema": "../server/prisma/schema.prisma"
+  },
+  "devDependencies": {
+    "@nestjs/common": "^10.0.0",
+    "@nestjs/core": "^10.0.0",
+    "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/testing": "10.0.0",
+    "@types/jest": "30.0.0",
+    "@types/supertest": "6.0.3",
+    "jest": "^30.2.0",
+    "jest-ctrf-json-reporter": "^0.0.9",
+    "jest-junit": "^16.0.0",
+    "json5": "^2.2.3",
+    "supertest": "7.1.0",
+    "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.1"
+  }
+}

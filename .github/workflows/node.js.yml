@@ -1,0 +1,41 @@
+name: Basic functionality check
+
+on:
+  push:
+
+jobs:
+  basic-test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          node-version: "20"
+
+      - name: Install server dependencies
+        working-directory: ./server
+        run: npm install
+
+      - name: Start server
+        working-directory: ./server
+        run: npm run start &
+
+      - name: Wait for server to start
+        run: sleep 10
+
+      - name: Install test dependencies
+        working-directory: ./test
+        run: npm install
+
+      - name: Set up database and seed data
+        working-directory: ./server
+        run: export PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1 && npx prisma@6 migrate dev --name init
+
+      - name: Run basic functionality tests
+        working-directory: ./test
+        run: npx jest --config ./jest-basic.json
